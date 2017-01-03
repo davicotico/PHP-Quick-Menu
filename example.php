@@ -1,5 +1,7 @@
 <?php 
-
+/**
+* @author David Ticona Saravia
+*/
 include "QuickMenu.php";
 $str = '[{"text":"aaa", "href": "http://aaa.com", "title": "t1"}, {"text":"aaa2", "href": "#", "title": "t2", "children": [{"text":"aaa21", "href": "h21", "title": "t21"}, {"text":"aaa22", "href": "h22", "title": "t22"}]}, {"text":"aaa3", "href": "h3", "title": "t3", "icon": "fa-ok"}]';
 $m = new QuickMenu(array('data'=>$str));
