@@ -129,9 +129,12 @@ class QuickMenu
 		$str = ($depth===0) ? '<ul'.$this->getProperties('ul-root').'>' : '<ul'. $this->getProperties('ul').'>';
 		foreach ($array as $item)
 		{
-			$li = ($item['href']==="#") ? 'li-root' : 'li';
-			$str.='<li'.$this->getProperties($li).'><a href="'.$item['href'].'" title="'.$item['title'].'">'.$this->getIcon($item).$item['text'].'</a>';
-			if (isset($item['children']))
+            $isParent = isset($item['children']);
+			$li = ($isParent) ? 'li-root' : 'li';
+            $a = ($isParent) ? 'a-parent' : 'a';
+			$str .= '<li'.$this->getProperties($li).'>';
+            $str .= '<a href="'.$item['href'].'" title="'.$item['title'].'"'. $this->getProperties($a).'>'.$this->getText($item, $isParent).'</a>';
+			if ($isParent)
 			{
 				$str .= $this->build($item['children'], 1);
 			}
@@ -140,13 +143,16 @@ class QuickMenu
 		$str .='</ul>';
 		return $str;
 	}
-	/**
-	* @param array $item
-	* @return string Html text
-	*/
-	private function getIcon($item)
-	{
-		$str = (isset($item['icon'])) ? "<i class=\"{$this->iconFamily} {$item['icon']}\"></i> " : '';
-		return $str;
-	}
+    private function getText($item, $isParent)
+    {
+        $str = (isset($item['icon'])) ? "<i class=\"{$this->iconFamily} {$item['icon']}\"></i> " : '';
+        if ($isParent)
+        {
+            $str = $item['text'].' <i class="caret"></i>';
+        } else
+        {
+            $str.= $item['text'];
+        }
+        return $str;
+    }
 }
