@@ -6,105 +6,105 @@
  */
 class QuickMenu
 {
-	private $iconFamily = 'fa';
+    private $iconFamily = 'fa';
     private $dropdownIcon = '';
-	private $properties = array();
-	private $attr = array();
-	private $array = array();
-	
-	public function __construct($options = array())
-	{
-		if (isset($options['data']))
-		{
-			$this->setData($options['data']);
-		}
-		$this->iconFamily = isset($options['iconFamily']) ? $options['iconFamily'] : $this->iconFamily;
+    private $properties = array();
+    private $attr = array();
+    private $array = array();
+
+    public function __construct($options = array())
+    {
+        if (isset($options['data']))
+        {
+            $this->setData($options['data']);
+        }
+        $this->iconFamily = isset($options['iconFamily']) ? $options['iconFamily'] : $this->iconFamily;
         $this->dropdownIcon = isset($options['dropdownIcon']) ? $options['dropdownIcon'] : $this->dropdownIcon;
-	}
-	/**
-	* @param mixed $data Data (Json string or associative array)
-	*/
-	public function setData($data)
-	{
-		if (is_string($data))
-		{
-			$this->array = json_decode($data, TRUE);
-		} elseif (is_array($data))
-		{
-			$this->array = $data;
-		}
-	}
-	/**
-	* @param string $tag 
-	* @param array $array
-	*/
-	public function setProperties($tag, $array)
-	{
-		$this->properties[$tag] = $array;
-	}
-	/**
-	* Insert an item
-	* @param array $item
-	* @param string $before_at (Optional) Default = ''
-	* @param string $parent (Optional) Default = ''
-	*/
-	public function insert($item, $before_at = '', $parent = '')
-	{
-		if ($before_at==='' && $parent==='')
-		{
-			$this->array[] = $item;
-			return;
-		}
-		if ($parent==='')
-		{
-			$pos = array_search($before_at, array_column($this->array, 'text'));
-			if ($pos!==FALSE)
-			{
-				array_splice($this->array, $pos, 0, array($item));
-				return;
-			}
-			$this->array[] = $item;
-		} else
-		{
-			$pos_parent = array_search($parent, array_column($this->array, 'text'));
-			if ($pos_parent===FALSE)
-			{
-				$this->array[] = $item;
-				return;
-			}
-			$pos = array_search($before_at, array_column($this->array[$pos_parent]['children'], 'text'));
-			if ($pos!==FALSE)
-			{
-				array_splice($this->array[$pos_parent]['children'], $pos, 0, array($item));
-				return;
-			}
-			$this->array[$pos_parent]['children'][]=$item;
-		}
-	}
-	/**
-	* 
-	* @return string Html menu
-	*/
-	public function html()
-	{
-		foreach ($this->properties as $tag => $attr)
-		{
-			$this->attr[$tag] = $this->buildProperties($tag);
-		}
-		return $this->build($this->array);
-	}
-	public function view()
-	{
-		echo $this->html();
-	}
-	/**
-	* @param string $tag
-	* @return string Attributes
-	*/
-	private function buildProperties($tag)
-	{
-		$str = '';
-		if (isset($this->properties[$tag]))
+    }
+    /**
+    * @param mixed $data Data (Json string or associative array)
+    */
+    public function setData($data)
+    {
+        if (is_string($data))
+        {
+            $this->array = json_decode($data, TRUE);
+        } elseif (is_array($data))
+        {
+            $this->array = $data;
+        }
+    }
+    /**
+    * @param string $tag 
+    * @param array $array
+    */
+    public function setProperties($tag, $array)
+    {
+        $this->properties[$tag] = $array;
+    }
+    /**
+    * Insert an item
+    * @param array $item
+    * @param string $before_at (Optional) Default = ''
+    * @param string $parent (Optional) Default = ''
+    */
+    public function insert($item, $before_at = '', $parent = '')
+    {
+        if ($before_at==='' && $parent==='')
+        {
+            $this->array[] = $item;
+            return;
+        }
+        if ($parent==='')
+        {
+            $pos = array_search($before_at, array_column($this->array, 'text'));
+            if ($pos!==FALSE)
+            {
+                array_splice($this->array, $pos, 0, array($item));
+                return;
+            }
+            $this->array[] = $item;
+        } else
+        {
+            $pos_parent = array_search($parent, array_column($this->array, 'text'));
+            if ($pos_parent===FALSE)
+            {
+                $this->array[] = $item;
+                return;
+            }
+            $pos = array_search($before_at, array_column($this->array[$pos_parent]['children'], 'text'));
+            if ($pos!==FALSE)
+            {
+                array_splice($this->array[$pos_parent]['children'], $pos, 0, array($item));
+                return;
+            }
+            $this->array[$pos_parent]['children'][]=$item;
+        }
+    }
+    /**
+    * 
+    * @return string Html menu
+    */
+    public function html()
+    {
+        foreach ($this->properties as $tag => $attr)
+        {
+            $this->attr[$tag] = $this->buildProperties($tag);
+        }
+        return $this->build($this->array);
+    }
+    public function view()
+    {
+        echo $this->html();
+    }
+    /**
+    * @param string $tag
+    * @return string Attributes
+    */
+    private function buildProperties($tag)
+    {
+        $str = '';
+        if (isset($this->properties[$tag]))
         {
             foreach ($this->properties[$tag] as $name=>$value)
             {
@@ -112,39 +112,39 @@ class QuickMenu
             }
         }
         return $str;
-	}
-	/**
-	* @param string $tag
-	* @return string Attribute
-	*/
-	private function getProperties($tag)
-	{
-		return isset($this->attr[$tag]) ? $this->attr[$tag] : '';
-	}
-	/**
-	* @param array $array
-	* @param int $depth (Optional) Default: 0
-	* @return string 
-	*/
-	private function build($array, $depth=0)
-	{
-		$str = ($depth===0) ? '<ul'.$this->getProperties('ul-root').'>' : '<ul'. $this->getProperties('ul').'>';
-		foreach ($array as $item)
-		{
+    }
+    /**
+    * @param string $tag
+    * @return string Attribute
+    */
+    private function getProperties($tag)
+    {
+        return isset($this->attr[$tag]) ? $this->attr[$tag] : '';
+    }
+    /**
+    * @param array $array
+    * @param int $depth (Optional) Default: 0
+    * @return string 
+    */
+    private function build($array, $depth=0)
+    {
+        $str = ($depth===0) ? '<ul'.$this->getProperties('ul-root').'>' : '<ul'. $this->getProperties('ul').'>';
+        foreach ($array as $item)
+        {
             $isParent = isset($item['children']);
-			$li = ($isParent) ? 'li-parent' : 'li';
+            $li = ($isParent) ? 'li-parent' : 'li';
             $a = ($isParent) ? 'a-parent' : 'a';
-			$str .= '<li'.$this->getProperties($li).'>';
+            $str .= '<li'.$this->getProperties($li).'>';
             $str .= '<a href="'.$item['href'].'" title="'.$item['title'].'"'. $this->getProperties($a).'>'.$this->getText($item, $isParent).'</a>';
-			if ($isParent)
-			{
-				$str .= $this->build($item['children'], 1);
-			}
-			$str .='</li>';
-		}
-		$str .='</ul>';
-		return $str;
-	}
+            if ($isParent)
+            {
+                $str .= $this->build($item['children'], 1);
+            }
+            $str .='</li>';
+        }
+        $str .='</ul>';
+        return $str;
+    }
     private function getText($item, $isParent)
     {
         $str = (isset($item['icon'])) ? "<i class=\"{$this->iconFamily} {$item['icon']}\"></i> " : '';
@@ -158,37 +158,38 @@ class QuickMenu
         return $str;
     }
     /**
-	* @param array $result Result from query (Object result)
-	* @param string $idColumn ID field name
-	* @param string $parentColumn Parent field name
-	*/
-	public function fromResult($result, $idColumn, $parentColumn)
-	{
-		/* $sql = 'SELECT link as href, text, icon, parent, id_menuitem as id FROM _menuitem where id_menu=? and _status=1 ORDER BY parent, ordering ASC';
-        $result = $this->db->query($sql, array($id))->result(); */
+    * @param array $result Result from query (Object result)
+    * @param string $idColumn ID field name
+    * @param string $parentColumn Parent field name
+    */
+    public function fromResult($result, $idColumn, $parentColumn)
+    {
         $items = array();
         foreach ($result as $row)
         {
-        	$target = (isset($row->target)) ? $row->target : '_self';
+            $target = (isset($row->target)) ? $row->target : '_self';
             $items[$row->$parentColumn][$row->$idColumn] = array('id'=>$row->id, 'href' => $row->href, 'text' => $row->text, 'icon'=>$row->icon, 'target'=>$target);
         }
         return $this->buildFromResult($items);
-	}
-	private function buildFromResult(array $array, $parent = 0, $level = 0)
+    }
+    private function buildFromResult(array $array, $parent = 0, $level = 0)
     {
-    	$ul = ($parent===0) ? 'ul-root' : 'ul';
-    	$str = '<ul class="'.$ul.'">';
-    	foreach ($array[$parent] as $item_id => $item) {
-    		$isParent = isset($array[$item_id]);
-    		$li = ($isParent) ? 'li-parent' : 'li';
-    		$str.= '<li class="'.$li.'"><a href="'.$item['href'].'">'.$item["text"].'</a>';
-    		if ($isParent)
-    		{
-    			$str.= $this->buildFromResult($array, $item_id, $level+2);
-    		}
-    		$str.='</li>';
-    	}
-    	$str.='</ul>';
-    	return $str;
+        $ul = ($parent===0) ? 'ul-root' : 'ul';
+        $str = '<ul class="'.$ul.'">';
+        foreach ($array[$parent] as $item_id => $item)
+        {
+            $isParent = isset($array[$item_id]);
+            $li = ($isParent) ? 'li-parent' : 'li';
+            $a = ($isParent) ? 'a-parent' : 'a';
+            $str.= '<li'.$this->getProperties($li).'>';
+            $str.= '<a href="'.$item['href'].'"'.$this->getProperties($a).'>'.$this->getText($item, $isParent).'</a>';
+            if ($isParent)
+            {
+                $str.= $this->buildFromResult($array, $item_id, $level+2);
+            }
+            $str.='</li>';
+        }
+        $str.='</ul>';
+        return $str;
     }
 }
