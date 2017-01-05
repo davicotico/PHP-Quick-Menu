@@ -157,4 +157,38 @@ class QuickMenu
         }
         return $str;
     }
+    /**
+	* @param array $result Result from query (Object result)
+	* @param string $idColumn ID field name
+	* @param string $parentColumn Parent field name
+	*/
+	public function fromResult($result, $idColumn, $parentColumn)
+	{
+		/* $sql = 'SELECT link as href, text, icon, parent, id_menuitem as id FROM _menuitem where id_menu=? and _status=1 ORDER BY parent, ordering ASC';
+        $result = $this->db->query($sql, array($id))->result(); */
+        $items = array();
+        foreach ($result as $row)
+        {
+        	$target = (isset($row->target)) ? $row->target : '_self';
+            $items[$row->$parentColumn][$row->$idColumn] = array('id'=>$row->id, 'href' => $row->href, 'text' => $row->text, 'icon'=>$row->icon, 'target'=>$target);
+        }
+        return $this->buildFromResult($items);
+	}
+	private function buildFromResult(array $array, $parent = 0, $level = 0)
+    {
+    	$ul = ($parent===0) ? 'ul-root' : 'ul';
+    	$str = '<ul class="'.$ul.'">';
+    	foreach ($array[$parent] as $item_id => $item) {
+    		$isParent = isset($array[$item_id]);
+    		$li = ($isParent) ? 'li-parent' : 'li';
+    		$str.= '<li class="'.$li.'"><a href="'.$item['href'].'">'.$item["text"].'</a>';
+    		if ($isParent)
+    		{
+    			$str.= $this->buildFromResult($array, $item_id, $level+2);
+    		}
+    		$str.='</li>';
+    	}
+    	$str.='</ul>';
+    	return $str;
+    }
 }
