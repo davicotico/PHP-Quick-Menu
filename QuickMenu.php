@@ -7,6 +7,7 @@
 class QuickMenu
 {
 	private $iconFamily = 'fa';
+    private $dropdownIcon = '';
 	private $properties = array();
 	private $attr = array();
 	private $array = array();
@@ -18,6 +19,7 @@ class QuickMenu
 			$this->setData($options['data']);
 		}
 		$this->iconFamily = isset($options['iconFamily']) ? $options['iconFamily'] : $this->iconFamily;
+        $this->dropdownIcon = isset($options['dropdownIcon']) ? $options['dropdownIcon'] : $this->dropdownIcon;
 	}
 	/**
 	* @param mixed $data Data (Json string or associative array)
@@ -148,7 +150,7 @@ class QuickMenu
         $str = (isset($item['icon'])) ? "<i class=\"{$this->iconFamily} {$item['icon']}\"></i> " : '';
         if ($isParent)
         {
-            $str = $item['text'].' <i class="caret"></i>';
+            $str = "{$item['text']} {$this->dropdownIcon}";
         } else
         {
             $str.= $item['text'];

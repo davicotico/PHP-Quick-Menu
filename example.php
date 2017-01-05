@@ -4,7 +4,8 @@
 */
 include "QuickMenu.php";
 $str = '[{"text":"Home", "href": "#home", "title": "Home"}, {"text":"About", "href": "#", "title": "Abour", "children": [{"text":"Action", "href": "#action", "title": "Action"}, {"text":"Another action", "href": "#another", "title": "Another action"}]}, {"text":"Something else here", "href": "#something", "title": "Something else here"}]';
-$m = new QuickMenu(array('data'=>$str));
+$dropdownIcon = '<i class="caret"></i>';
+$m = new QuickMenu(array('data'=>$str, 'dropdownIcon'=>$dropdownIcon));
 $m->setProperties('ul-root', array('class'=>'nav navbar-nav', 'id'=>'#myMenu'));
 $m->setProperties('ul', array('class'=>'dropdown-menu'));
 $m->setProperties('li-root', array('class'=>'dropdown'));
@@ -55,7 +56,7 @@ $menu = $m->html(); ?>
       <div class="jumbotron">
         <h1>PHP QuickMenu Example #1</h1>
         <p>Este es un ejemplo simple de creación de un menu Bootstrap.</p>
-        <p>El menú es generado a partir de una string JSON.</p>
+        <p>El menú fue generado a partir de una string JSON.</p>
         <p>Estoy creando un tutorial. Apoyame: 
 <a class="github-button" href="https://github.com/davicotico/PHP-Quick-Menu-Multilevel" data-icon="octicon-star" data-style="mega" data-count-href="/davicotico/PHP-Quick-Menu-Multilevel/stargazers" data-count-api="/repos/davicotico/PHP-Quick-Menu-Multilevel#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star davicotico/PHP-Quick-Menu-Multilevel on GitHub">Star</a>
         </p>
