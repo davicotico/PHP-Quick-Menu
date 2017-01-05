@@ -132,7 +132,7 @@ class QuickMenu
 		foreach ($array as $item)
 		{
             $isParent = isset($item['children']);
-			$li = ($isParent) ? 'li-root' : 'li';
+			$li = ($isParent) ? 'li-parent' : 'li';
             $a = ($isParent) ? 'a-parent' : 'a';
 			$str .= '<li'.$this->getProperties($li).'>';
             $str .= '<a href="'.$item['href'].'" title="'.$item['title'].'"'. $this->getProperties($a).'>'.$this->getText($item, $isParent).'</a>';

@@ -8,7 +8,7 @@ $dropdownIcon = '<i class="caret"></i>';
 $m = new QuickMenu(array('data'=>$str, 'dropdownIcon'=>$dropdownIcon));
 $m->setProperties('ul-root', array('class'=>'nav navbar-nav', 'id'=>'#myMenu'));
 $m->setProperties('ul', array('class'=>'dropdown-menu'));
-$m->setProperties('li-root', array('class'=>'dropdown'));
+$m->setProperties('li-parent', array('class'=>'dropdown'));
 $m->setProperties('a-parent', array('class'=>"dropdown-toggle", 'data-toggle'=>"dropdown", 'role'=>"button", 'aria-haspopup'=>"true", 'aria-expanded'=>"false"));
 //$m->insert(array("text"=>'Fin', "href"=>'http://fin', "title"=>'titleAdd'));
 //$m->insert(array("text"=>'insert', "href"=>'http://add', "title"=>'titleAdd'), "aaa2");
