@@ -148,13 +148,7 @@ class QuickMenu
     private function getText($item, $isParent)
     {
         $str = (isset($item['icon'])) ? "<i class=\"{$this->iconFamily} {$item['icon']}\"></i> " : '';
-        if ($isParent)
-        {
-            $str = "{$item['text']} {$this->dropdownIcon}";
-        } else
-        {
-            $str.= $item['text'];
-        }
+        $str.= ($isParent) ? "{$item['text']} {$this->dropdownIcon}" : $item['text'];
         return $str;
     }
     /**
@@ -182,7 +176,7 @@ class QuickMenu
             $li = ($isParent) ? 'li-parent' : 'li';
             $a = ($isParent) ? 'a-parent' : 'a';
             $str.= '<li'.$this->getProperties($li).'>';
-            $str.= '<a href="'.$item['href'].'"'.$this->getProperties($a).'>'.$this->getText($item, $isParent).'</a>';
+            $str.= "<a href=\"{$item['href']}\" target=\"{$item['target']}\"".$this->getProperties($a).'>'.$this->getText($item, $isParent).'</a>';
             if ($isParent)
             {
                 $str.= $this->buildFromResult($array, $item_id, $level+2);
