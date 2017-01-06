@@ -1,6 +1,6 @@
 # PHP Quick Menu
-Esta clase PHP permite crear un menu Html a partir de una string Json. Por favor **califica con una estrella este repositorio**, porque de esa forma voy a saber que este trabajo está siendo útil.
-La clase tiene parámetros de configuración, que van a ser explicadas en un tutorial que estoy preparando.
+Esta clase PHP permite crear un menu Html a partir de una string Json. Por favor **califica con una estrella este repositorio**, pues de esa forma voy a saber que este trabajo está siendo útil.
+La clase tiene parámetros de configuración, que van a ser explicados en un tutorial que estoy preparando.
 ### Input
 ```
 [{
