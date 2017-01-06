@@ -3,7 +3,7 @@
 * @author David Ticona Saravia
 */
 include "QuickMenu.php";
-$str = '[{"text":"Home", "href": "#home", "title": "Home"}, {"text":"About", "href": "#", "title": "Abour", "children": [{"text":"Action", "href": "#action", "title": "Action"}, {"text":"Another action", "href": "#another", "title": "Another action"}]}, {"text":"Something else here", "href": "#something", "title": "Something else here"}]';
+$str = '[{"text":"Home", "href": "#home", "title": "Home"}, {"text":"About", "href": "#", "title": "About", "children": [{"text":"Action", "href": "#action", "title": "Action"}, {"text":"Another action", "href": "#another", "title": "Another action"}]}, {"text":"Something else here", "href": "#something", "title": "Something else here"}]';
 $dropdownIcon = '<i class="caret"></i>';
 $m = new QuickMenu(array('data'=>$str, 'dropdownIcon'=>$dropdownIcon));
 $m->setProperties('ul-root', array('class'=>'nav navbar-nav', 'id'=>'#myMenu'));
@@ -58,7 +58,7 @@ $menu = $m->html(); ?>
         <p>Este es un ejemplo simple de creación de un menu Bootstrap.</p>
         <p>El menú fue generado a partir de una string JSON.</p>
         <p>Estoy creando un tutorial. Apoyame: 
-<a class="github-button" href="https://github.com/davicotico/PHP-Quick-Menu-Multilevel" data-icon="octicon-star" data-style="mega" data-count-href="/davicotico/PHP-Quick-Menu-Multilevel/stargazers" data-count-api="/repos/davicotico/PHP-Quick-Menu-Multilevel#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star davicotico/PHP-Quick-Menu-Multilevel on GitHub">Star</a>
+<a class="github-button" href="https://github.com/davicotico/PHP-Quick-Menu" data-icon="octicon-star" data-style="mega" data-count-href="/davicotico/PHP-Quick-Menu/stargazers" data-count-api="/repos/davicotico/PHP-Quick-Menu#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star davicotico/PHP-Quick-Menu on GitHub">Star</a>
         </p>
         <p>
             <a class="btn btn-lg btn-primary" href="https://www.youtube.com/c/DavidTiconaSaravia" target="_blank" role="button">Inscríbete a mi canal en Youtube &raquo;</a>
