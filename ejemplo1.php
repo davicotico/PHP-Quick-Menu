@@ -4,24 +4,24 @@
 */
 include "QuickMenu.php";
 $str = '[{"text":"Home", "href": "#home", "title": "Home"}, {"text":"About", "href": "#", "title": "About", "children": [{"text":"Action", "href": "#action", "title": "Action"}, {"text":"Another action", "href": "#another", "title": "Another action"}]}, {"text":"Something else here", "href": "#something", "title": "Something else here"}]';
-$m = new QuickMenu(array('data'=>$str));
-$m->set('dropdownIcon', '<i class="caret"></i>');
-$m->set('ul-root', array('class'=>'nav navbar-nav', 'id'=>'#myMenu'));
-$m->set('ul', array('class'=>'dropdown-menu'));
-$m->set('li-parent', array('class'=>'dropdown'));
-$m->set('a-parent', array('class'=>"dropdown-toggle", 'data-toggle'=>"dropdown", 'role'=>"button", 'aria-haspopup'=>"true", 'aria-expanded'=>"false"));
-$m->insert(array("text"=>'Ooh!', "href"=>'http://codeignitertutoriales.com', "title"=>'Awesome'), 'Another action', 'About');
-$m->insert(array("text"=>'Final item', "href"=>'https://github.com/davicotico', "title"=>'My Github'));
-$menu = $m->html(); ?>
+$qMenu = new QuickMenu(array('data'=>$str));
+$qMenu->set('dropdownIcon', '<i class="caret"></i>');
+$qMenu->set('ul-root', array('class'=>'nav navbar-nav', 'id'=>'#myMenu'));
+$qMenu->set('ul', array('class'=>'dropdown-menu'));
+$qMenu->set('li-parent', array('class'=>'dropdown'));
+$qMenu->set('a-parent', array('class'=>"dropdown-toggle", 'data-toggle'=>"dropdown", 'role'=>"button", 'aria-haspopup'=>"true", 'aria-expanded'=>"false"));
+$qMenu->insert(array("text"=>'Ooh!', "href"=>'http://codeignitertutoriales.com', "title"=>'Awesome'), 'Another action', 'About');
+$qMenu->insert(array("text"=>'Ultimo item', "href"=>'https://github.com/davicotico', "title"=>'My Github'));
+$menu = $qMenu->html(); ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Ejemplo Quick Menu">
     <meta name="author" content="David Ticona Saravia">
-    <title>Example #1 - QuiMenu</title>
+    <title>Ejemplo #1 - QuickMenu</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -42,7 +42,7 @@ $menu = $m->html(); ?>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">PHP QuickMenu</a>
+          <a class="navbar-brand" href="http://codeignitertutoriales.com">PHP QuickMenu</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <?php echo $menu ?>
@@ -51,10 +51,10 @@ $menu = $m->html(); ?>
     </nav>
     <div class="container">
       <div class="jumbotron">
-        <h1>PHP QuickMenu Example #1</h1>
+        <h1>PHP QuickMenu Ejemplo #1</h1>
         <p>Este es un ejemplo simple de creación de un menu Bootstrap.</p>
         <p>El menú fue generado a partir de una string JSON.</p>
-        <p>Estoy creando un tutorial. Apoyame: 
+        <p>Apoyame: 
 <a class="github-button" href="https://github.com/davicotico/PHP-Quick-Menu" data-icon="octicon-star" data-style="mega" data-count-href="/davicotico/PHP-Quick-Menu/stargazers" data-count-api="/repos/davicotico/PHP-Quick-Menu#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star davicotico/PHP-Quick-Menu on GitHub">Star</a>
         </p>
         <p>
