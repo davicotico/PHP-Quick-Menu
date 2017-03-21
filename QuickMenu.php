@@ -8,6 +8,8 @@ class QuickMenu
 {
     
     private $dropdownIcon = '';
+    private $activeClass = 'active';
+    private $activeItem = '';
     private $arrAttr = array();
     private $strAttr = array();
     private $arrData = array();
@@ -19,10 +21,11 @@ class QuickMenu
             $this->setData($options['data']);
         }
         $this->dropdownIcon = isset($options['dropdownIcon']) ? $options['dropdownIcon'] : $this->dropdownIcon;
+        $this->activeClass = isset($options['active-class']) ? $options['active-class'] : $this->activeClass;
     }
     public function set($name, $value)
     {
-        $tags = array('ul', 'ul-root', 'li', 'li-parent', 'a', 'a-parent');
+        $tags = array('ul', 'ul-root', 'li', 'li-parent', 'a', 'a-parent', 'active-class');
         if (in_array($name, $tags))
         {
             $this->arrAttr[$name] = $value;
@@ -32,6 +35,15 @@ class QuickMenu
         {
             $this->$name = $value;
         }
+    }
+    public function setActiveItem($href, $activeClass = '')
+    {
+        $this->activeItem = $href;
+        if ($activeClass!='')
+        {
+            $this->activeClass = $activeClass;
+        }
+        $this->set('active-class', array('class' => $this->activeClass));
     }
     /**
     * @param mixed $data Data (Json string or associative array)
@@ -135,7 +147,8 @@ class QuickMenu
             $isParent = isset($item['children']);
             $li = ($isParent) ? 'li-parent' : 'li';
             $a = ($isParent) ? 'a-parent' : 'a';
-            $str .= '<li'.$this->getAttr($li).'>';
+            $active = ($this->activeItem==$item['href']) ? $this->getAttr('active-class') : '';
+            $str .= '<li'.$this->getAttr($li)." {$active} >";
             $str .= '<a href="'.$item['href'].'" title="'.$item['title'].'"'. $this->getAttr($a).'>'.$this->getTextItem($item, $isParent).'</a>';
             if ($isParent)
             {

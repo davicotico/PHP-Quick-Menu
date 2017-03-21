@@ -10,6 +10,7 @@ $qMenu->set('ul-root', array('class'=>'nav navbar-nav', 'id'=>'#myMenu'));
 $qMenu->set('ul', array('class'=>'dropdown-menu'));
 $qMenu->set('li-parent', array('class'=>'dropdown'));
 $qMenu->set('a-parent', array('class'=>"dropdown-toggle", 'data-toggle'=>"dropdown", 'role'=>"button", 'aria-haspopup'=>"true", 'aria-expanded'=>"false"));
+$qMenu->setActiveItem('http://codeignitertutoriales.com');
 $qMenu->insert(array("text"=>'Ooh!', "href"=>'http://codeignitertutoriales.com', "title"=>'Awesome'), 'Another action', 'About');
 $qMenu->insert(array("text"=>'Ultimo item', "href"=>'https://github.com/davicotico', "title"=>'My Github'));
 $menu = $qMenu->html(); ?>
