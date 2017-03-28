@@ -4,12 +4,12 @@
  * @author David Ticona Saravia <davicotico@gmail.com>
  * @version 0.5 (01/2017)
  */
-class QuickMenu
+abstract class QuickMenu
 {
     
     private $dropdownIcon = '';
     private $activeClass = 'active';
-    private $activeItem = '';
+    protected $activeItem = '';
     private $arrAttr = array();
     private $strAttr = array();
     private $arrData = array();
@@ -36,6 +36,10 @@ class QuickMenu
             $this->$name = $value;
         }
     }
+    /**
+     * @param string $href The active href
+     * @param string $activeClass (Optional) The Css class for the active item
+     */
     public function setActiveItem($href, $activeClass = '')
     {
         $this->activeItem = $href;
@@ -130,41 +134,17 @@ class QuickMenu
     * @param string $tag
     * @return string Tag Attributes stored
     */
-    private function getAttr($tag)
+    protected function getAttr($tag)
     {
         return isset($this->strAttr[$tag]) ? $this->strAttr[$tag] : '';
     }
-    /**
-    * @param array $array
-    * @param int $depth (Optional)
-    * @return string The Html code
-    */
-    private function build($array, $depth=0)
-    {
-        $str = ($depth===0) ? '<ul'.$this->getAttr('ul-root').'>' : '<ul'. $this->getAttr('ul').'>';
-        foreach ($array as $item)
-        {
-            $isParent = isset($item['children']);
-            $li = ($isParent) ? 'li-parent' : 'li';
-            $a = ($isParent) ? 'a-parent' : 'a';
-            $active = ($this->activeItem==$item['href']) ? $this->getAttr('active-class') : '';
-            $str .= '<li'.$this->getAttr($li)." {$active} >";
-            $str .= '<a href="'.$item['href'].'" title="'.$item['title'].'"'. $this->getAttr($a).'>'.$this->getTextItem($item, $isParent).'</a>';
-            if ($isParent)
-            {
-                $str .= $this->build($item['children'], 1);
-            }
-            $str .='</li>';
-        }
-        $str .='</ul>';
-        return $str;
-    }
+
     /**
      * @param array $item The Item menu
      * @param boolean $isParent This item is parent?
      * @return string The Html code
      */
-    private function getTextItem($item, $isParent)
+    protected function getTextItem($item, $isParent)
     {
         $str = (isset($item['icon'])) ? "<i class=\"{$item['icon']}\"></i> " : '';
         $str.= ($isParent) ? "{$item['text']} {$this->dropdownIcon}" : $item['text'];
@@ -185,24 +165,21 @@ class QuickMenu
         }
         return $this->buildFromResult($items);
     }
-    private function buildFromResult(array $array, $parent = 0, $level = 0)
-    {
-        $ul = ($parent===0) ? 'ul-root' : 'ul';
-        $str = '<ul'.$this->getAttr($ul).'>';
-        foreach ($array[$parent] as $item_id => $item)
-        {
-            $isParent = isset($array[$item_id]);
-            $li = ($isParent) ? 'li-parent' : 'li';
-            $a = ($isParent) ? 'a-parent' : 'a';
-            $str.= '<li'.$this->getAttr($li).'>';
-            $str.= "<a href=\"{$item['href']}\" target=\"{$item['target']}\"".$this->getAttr($a).'>'.$this->getTextItem($item, $isParent).'</a>';
-            if ($isParent)
-            {
-                $str.= $this->buildFromResult($array, $item_id, $level+2);
-            }
-            $str.='</li>';
-        }
-        $str.='</ul>';
-        return $str;
-    }
+    
+    /**
+     * 
+     * @param array $array
+     * @param int $depth (Optional)
+     * @return string The Html code
+     */
+    abstract protected function build($array, $depth=0);
+    
+    /**
+     * Método recursivo para crear items desde un query result
+     * @param array $array Array de items
+     * @param int $parent Parent ID
+     * @param int $level Nivel del item
+     */
+    abstract protected function buildFromResult(array $array, $parent = 0, $level = 0);
+    
 }

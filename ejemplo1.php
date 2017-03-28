@@ -2,9 +2,9 @@
 /**
 * @author David Ticona Saravia
 */
-include "QuickMenu.php";
+include "BootstrapMenu.php";
 $str = '[{"text":"Home", "href": "#home", "title": "Home"}, {"text":"About", "href": "#", "title": "About", "children": [{"text":"Action", "href": "#action", "title": "Action"}, {"text":"Another action", "href": "#another", "title": "Another action"}]}, {"text":"Something else here", "href": "#something", "title": "Something else here"}]';
-$qMenu = new QuickMenu(array('data'=>$str));
+$qMenu = new BootstrapMenu(array('data'=>$str));
 $qMenu->set('dropdownIcon', '<i class="caret"></i>');
 $qMenu->set('ul-root', array('class'=>'nav navbar-nav', 'id'=>'#myMenu'));
 $qMenu->set('ul', array('class'=>'dropdown-menu'));
