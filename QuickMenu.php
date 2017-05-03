@@ -4,7 +4,7 @@
  * @author David Ticona Saravia <davicotico@gmail.com>
  * @version 0.7 (03/2017)
  */
-abstract class QuickMenu
+class QuickMenu
 {
 
     private $dropdownIcon = '';
@@ -230,5 +230,4 @@ abstract class QuickMenu
         $str.='</ul>';
         return $str;
     }
-
 }

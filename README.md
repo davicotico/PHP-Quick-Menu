@@ -2,6 +2,8 @@
 Esta clase PHP permite crear un menu Html a partir de una string Json. Por favor **califica este repositorio**, pues de esa forma voy a saber que este trabajo está siendo útil.
 La clase tiene parámetros de configuración, explicados en este tutorial: **http://codeignitertutoriales.com/php-menu-dinamico-multinivel/**
 
+![Yes](http://codeignitertutoriales.com/wp-content/uploads/2017/01/php-menu-dinamico-multinivel.jpg)
+
 ### Input
 ```
 [{
@@ -29,7 +31,7 @@ La clase tiene parámetros de configuración, explicados en este tutorial: **htt
 ```
 
 ### Output
-```
+```html
 <ul class="nav navbar-nav" id="#myMenu">
    <li><a href="#home" title="Home">Home</a></li>
    <li class="dropdown">
@@ -42,3 +44,21 @@ La clase tiene parámetros de configuración, explicados en este tutorial: **htt
    <li><a href="#something" title="Something else here">Something else here</a></li>
 </ul>
 ```
+# How to use
+* Extend the QuickMenu class for customization. For instance Bootstrap menu.
+* Include your class
+```php
+include "BootstrapMenu.php";
+$str = '[{"text":"Home", "href": "#home", "title": "Home"}, {"text":"About", "href": "#", "title": "About", "children": [{"text":"Action", "href": "#action", "title": "Action"}, {"text":"Another action", "href": "#another", "title": "Another action"}]}, {"text":"Something else here", "href": "#something", "title": "Something else here"}]';
+```
+* Instance the class with data parameters
+```php
+$qMenu = new BootstrapMenu(array('data'=>$str));
+```
+* Use the methods availables
+```php
+$qMenu->setActiveItem('http://codeignitertutoriales.com');
+$qMenu->insert(array("text"=>'Ooh!', "href"=>'http://codeignitertutoriales.com', "title"=>'Awesome'), 'Another action', 'About');
+$qMenu->insert(array("text"=>'Ultimo item', "href"=>'https://github.com/davicotico', "title"=>'My Github'));
+```Renderize the menu in a string variable
+$menu = $qMenu->html();
