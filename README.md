@@ -86,3 +86,17 @@ $menu = $qMenu->html();
     <?php echo $menu ?>
 </div>
 ```
+# Class reference
+### setActiveItem($href, $activeClass = '')
+Setting the active item.
+
+**Parameters:**
+* string $href The active href
+* string $activeClass (Optional) The Css class for the active item
+### insert($item, $before_at = '', $parent = '')
+Insert an item
+
+**Parameters:**
+* array $item - Associative array with item attributes (text, href, icon, title)
+* string $before_at (Optional) The reference position for insert
+* string $parent (Optional) The parent if the insert is in submenu
