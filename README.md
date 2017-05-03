@@ -80,3 +80,9 @@ $qMenu->insert(array("text"=>'Ultimo item', "href"=>'https://github.com/davicoti
 ```php
 $menu = $qMenu->html();
 ```
+* Done. You can echoes the menu on html document
+```html
+<div id="navbar" class="navbar-collapse collapse">
+    <?php echo $menu ?>
+</div>
+```
