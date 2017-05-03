@@ -100,3 +100,7 @@ Insert an item
 * array $item - Associative array with item attributes (text, href, icon, title)
 * string $before_at (Optional) The reference position for insert
 * string $parent (Optional) The parent if the insert is in submenu
+### html()
+The Html menu
+
+**return:** string Html menu
