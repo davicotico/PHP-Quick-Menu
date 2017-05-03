@@ -104,3 +104,16 @@ Insert an item
 The Html menu
 
 **return:** string Html menu
+### setData($data)
+Setting the data from json string or associative array
+
+**Parameters:**
+* mixed $data Data (Json string or associative array)
+### set($name, $value)
+Set the attributes for the tag vars
+
+**Parameters:**
+* string $name Var name
+* mixed $value Var value
+
+Var names: 'ul', 'ul-root', 'li', 'li-parent', 'a', 'a-parent', 'active-class'
