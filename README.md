@@ -45,7 +45,22 @@ La clase tiene parámetros de configuración, explicados en este tutorial: **htt
 </ul>
 ```
 # How to use
-* Extend the QuickMenu class for customization. For instance Bootstrap menu.
+* Extend the QuickMenu class for customization. For instance Bootstrap menu. (This is optional)
+```php
+require 'QuickMenu.php';
+class BootstrapMenu extends QuickMenu
+{
+    public function __construct($options = array())
+	{
+        parent::__construct($options);
+        $this->set('dropdownIcon', '<i class="caret"></i>');
+        $this->set('ul-root', array('class'=>'nav navbar-nav', 'id'=>'#myMenu'));
+        $this->set('ul', array('class'=>'dropdown-menu'));
+        $this->set('li-parent', array('class'=>'dropdown'));
+        $this->set('a-parent', array('class'=>"dropdown-toggle", 'data-toggle'=>"dropdown", 'role'=>"button", 'aria-haspopup'=>"true", 'aria-expanded'=>"false"));
+	}
+}
+```
 * Include your class
 ```php
 include "BootstrapMenu.php";
@@ -60,5 +75,8 @@ $qMenu = new BootstrapMenu(array('data'=>$str));
 $qMenu->setActiveItem('http://codeignitertutoriales.com');
 $qMenu->insert(array("text"=>'Ooh!', "href"=>'http://codeignitertutoriales.com', "title"=>'Awesome'), 'Another action', 'About');
 $qMenu->insert(array("text"=>'Ultimo item', "href"=>'https://github.com/davicotico', "title"=>'My Github'));
-```Renderize the menu in a string variable
+```
+* Renderize the menu in a string variable
+```php
 $menu = $qMenu->html();
+```
