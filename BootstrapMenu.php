@@ -7,7 +7,7 @@ class BootstrapMenu extends QuickMenu
     public function __construct($options = array())
     {
         parent::__construct($options);
-        $this->setDropDownIcon('<i class="caret"></i>');
+        $this->setDropdownIcon('<i class="caret"></i>');
         $this->set('ul-root', array('class'=>'nav navbar-nav', 'id'=>'#myMenu'));
         $this->set('ul', array('class'=>'dropdown-menu'));
         $this->set('li-parent', array('class'=>'dropdown'));

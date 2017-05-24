@@ -44,7 +44,7 @@ class QuickMenu
      * Set dropdown icon for display with submenus
      * @param string $content Content for the dropdown icon (Html code)
      */
-    public function setDropDownIcon($content)
+    public function setDropdownIcon($content)
     {
         $this->dropdownIcon = $content;
     }

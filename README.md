@@ -118,6 +118,12 @@ Set result from query database
 * string $columnID The ID column name (Primary key)
 * string $columnParent The column name for identify the parent item
 
+### setDropdownIcon($content)
+Set dropdown icon for display with submenus
+
+**Parameters:**
+* string $content Content for the dropdown icon (Html code)
+
 ### set($name, $value)
 Set the attributes for the tag vars
 
