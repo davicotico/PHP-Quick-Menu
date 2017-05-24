@@ -107,6 +107,9 @@ The Html menu
 ### setData($data)
 Setting the data from json string or associative array
 
+**Parameters:**
+* mixed $data Data (Json string or associative array)
+
 ### setResult($result, $columnID, $columnParent)
 Set result from query database
 
@@ -115,8 +118,6 @@ Set result from query database
 * string $columnID The ID column name (Primary key)
 * string $columnParent The column name for identify the parent item
 
-**Parameters:**
-* mixed $data Data (Json string or associative array)
 ### set($name, $value)
 Set the attributes for the tag vars
 
