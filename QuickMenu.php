@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Class Quick Menu
  * @author David Ticona Saravia <davicotico@gmail.com>
@@ -13,7 +14,8 @@ class QuickMenu
     private $arrAttr = array();
     private $strAttr = array();
     private $arrData = array();
-    
+    private $result = array();
+
     public function __construct($options = array())
     {
         if (isset($options['data']))
@@ -23,7 +25,7 @@ class QuickMenu
         $this->dropdownIcon = isset($options['dropdownIcon']) ? $options['dropdownIcon'] : $this->dropdownIcon;
         $this->activeClass = isset($options['active-class']) ? $options['active-class'] : $this->activeClass;
     }
-    
+
     /**
      * Set the attributes for the tag vars
      * @param string $name Var name
@@ -36,13 +38,17 @@ class QuickMenu
         if (in_array($name, $tags))
         {
             $this->arrAttr[$name] = $value;
-            return;
-        }
-        if (property_exists($this, $name))
-        {
-            $this->$name = $value;
         }
     }
+    /**
+     * Set dropdown icon for display with submenus
+     * @param string $content Content for the dropdown icon (Html code)
+     */
+    public function setDropDownIcon($content)
+    {
+        $this->dropdownIcon = $content;
+    }
+
     /**
      * @param string $href The active href
      * @param string $activeClass (Optional) The Css class for the active item
@@ -50,15 +56,16 @@ class QuickMenu
     public function setActiveItem($href, $activeClass = '')
     {
         $this->activeItem = $href;
-        if ($activeClass!='')
+        if ($activeClass != '')
         {
             $this->activeClass = $activeClass;
         }
         $this->set('active-class', array('class' => $this->activeClass));
     }
+
     /**
-    * @param mixed $data Data (Json string or associative array)
-    */
+     * @param mixed $data Data (Json string or associative array)
+     */
     public function setData($data)
     {
         if (is_string($data))
@@ -69,23 +76,24 @@ class QuickMenu
             $this->arrData = $data;
         }
     }
+
     /**
-    * Insert an item
-    * @param array $item
-    * @param string $before_at (Optional) The reference position for insert
-    * @param string $parent (Optional) The parent if the insert is at a submenu
-    */
+     * Insert an item
+     * @param array $item
+     * @param string $before_at (Optional) The reference position for insert
+     * @param string $parent (Optional) The parent if the insert is in a submenu
+     */
     public function insert($item, $before_at = '', $parent = '')
     {
-        if ($before_at==='' && $parent==='')
+        if ($before_at === '' && $parent === '')
         {
             $this->arrData[] = $item;
             return;
         }
-        if ($parent==='')
+        if ($parent === '')
         {
             $pos = array_search($before_at, array_column($this->arrData, 'text'));
-            if ($pos!==FALSE)
+            if ($pos !== FALSE)
             {
                 array_splice($this->arrData, $pos, 0, array($item));
                 return;
@@ -94,54 +102,73 @@ class QuickMenu
         } else
         {
             $pos_parent = array_search($parent, array_column($this->arrData, 'text'));
-            if ($pos_parent===FALSE)
+            if ($pos_parent === FALSE)
             {
                 $this->arrData[] = $item;
                 return;
             }
             $pos = array_search($before_at, array_column($this->arrData[$pos_parent]['children'], 'text'));
-            if ($pos!==FALSE)
+            if ($pos !== FALSE)
             {
                 array_splice($this->arrData[$pos_parent]['children'], $pos, 0, array($item));
                 return;
             }
-            $this->arrData[$pos_parent]['children'][]=$item;
+            $this->arrData[$pos_parent]['children'][] = $item;
         }
     }
+
     /**
      * The Html menu
      * @return string Html menu
      */
     public function html()
     {
+        if (!empty($this->result))
+        {
+            return $this->buildFromResult($this->result);
+        }
         foreach ($this->arrAttr as $tag => $attr)
         {
             $this->strAttr[$tag] = $this->buildAttributes($tag);
         }
         return $this->build($this->arrData);
     }
-    
+
     /**
-    * @param array $result Result from query (Object result)
-    * @param string $idColumn ID field name
-    * @param string $parentColumn Parent field name
-    */
-    public function fromResult($result, $idColumn, $parentColumn)
+     * Build the menu from query database.
+     * This is a alias (shorthand) for setResult() and html()
+     * @param array $result The resultset
+     * @param string $columnID The ID column name (Primary key)
+     * @param string $columnParent The column name for identify the parent item
+     */
+    public function fromResult($result, $columnID, $columnParent)
+    {
+        $this->setResult($result, $columnID, $columnParent);
+        return $this->buildFromResult($this->result);
+    }
+
+    /**
+     * Set result from query database
+     * @param array $result The resultset
+     * @param string $columnID The ID column name (Primary key)
+     * @param string $columnParent The column name for identify the parent item
+     */
+    public function setResult($result, $columnID, $columnParent)
     {
         $items = array();
         foreach ($result as $row)
         {
             $target = (isset($row->target)) ? $row->target : '_self';
             $icon = (isset($row->icon)) ? $row->icon : '';
-            $items[$row->$parentColumn][$row->$idColumn] = array('id'=>$row->id, 'href' => $row->href, 'text' => $row->text, 'icon'=>$icon, 'target'=>$target);
+            $items[$row->$columnParent][$row->$columnID] = array('id' => $row->id, 'href' => $row->href, 'text' => $row->text, 'icon' => $icon, 'target' => $target);
         }
-        return $this->buildFromResult($items);
+        $this->result = $items;
     }
-    
+
     /**
-    * @param string $tag
-    * @return string Tag Attributes stored
-    */
+     * @param string $tag
+     * @return string Tag Attributes stored
+     */
     protected function getAttr($tag)
     {
         return isset($this->strAttr[$tag]) ? $this->strAttr[$tag] : '';
@@ -155,10 +182,10 @@ class QuickMenu
     protected function getTextItem($item, $isParent)
     {
         $str = (isset($item['icon'])) ? "<i class=\"{$item['icon']}\"></i> " : '';
-        $str.= ($isParent) ? "{$item['text']} {$this->dropdownIcon}" : $item['text'];
+        $str .= ($isParent) ? "{$item['text']} {$this->dropdownIcon}" : $item['text'];
         return $str;
     }
-    
+
     /**
      * Renderize the tag attributes from array
      * @param string $tag The tag
@@ -169,65 +196,66 @@ class QuickMenu
         $str = '';
         if (isset($this->arrAttr[$tag]))
         {
-            foreach ($this->arrAttr[$tag] as $name=>$value)
+            foreach ($this->arrAttr[$tag] as $name => $value)
             {
                 $str .= " {$name}=\"{$value}\"";
             }
         }
         return $str;
     }
-    
+
     /**
-     * 
+     * Build the menu
      * @param array $array
      * @param int $depth (Optional)
      * @return string The Html code
      */
-    protected function build($array, $depth=0)
+    protected function build($array, $depth = 0)
     {
-        $str = ($depth===0) ? '<ul'.$this->getAttr('ul-root').'>' : '<ul'. $this->getAttr('ul').'>';
+        $str = ($depth === 0) ? '<ul' . $this->getAttr('ul-root') . '>' : '<ul' . $this->getAttr('ul') . '>';
         foreach ($array as $item)
         {
             $isParent = isset($item['children']);
             $li = ($isParent) ? 'li-parent' : 'li';
             $a = ($isParent) ? 'a-parent' : 'a';
             $active = ($this->activeItem == $item['href']) ? $this->getAttr('active-class') : '';
-            $str .= '<li'.$this->getAttr($li)." {$active} >";
-            $str .= '<a href="'.$item['href'].'" title="'.$item['title'].'"'. $this->getAttr($a).'>'.$this->getTextItem($item, $isParent).'</a>';
+            $str .= '<li' . $this->getAttr($li) . " {$active} >";
+            $str .= '<a href="' . $item['href'] . '" title="' . $item['title'] . '"' . $this->getAttr($a) . '>' . $this->getTextItem($item, $isParent) . '</a>';
             if ($isParent)
             {
                 $str .= $this->build($item['children'], 1);
             }
-            $str .='</li>';
+            $str .= '</li>';
         }
-        $str .='</ul>';
+        $str .= '</ul>';
         return $str;
     }
-    
+
     /**
-     * Método recursivo para crear items desde un query result
+     * Build the menu from a prepared array of Query Result
      * @param array $array Array de items
      * @param int $parent Parent ID
      * @param int $level Nivel del item
      */
     protected function buildFromResult(array $array, $parent = 0, $level = 0)
     {
-        $ul = ($parent===0) ? 'ul-root' : 'ul';
-        $str = '<ul'.$this->getAttr($ul).'>';
+        $ul = ($parent === 0) ? 'ul-root' : 'ul';
+        $str = '<ul' . $this->getAttr($ul) . '>';
         foreach ($array[$parent] as $item_id => $item)
         {
             $isParent = isset($array[$item_id]);
             $li = ($isParent) ? 'li-parent' : 'li';
             $a = ($isParent) ? 'a-parent' : 'a';
-            $str.= '<li'.$this->getAttr($li).'>';
-            $str.= "<a href=\"{$item['href']}\" target=\"{$item['target']}\"".$this->getAttr($a).'>'.$this->getTextItem($item, $isParent).'</a>';
+            $str .= '<li' . $this->getAttr($li) . '>';
+            $str .= "<a href=\"{$item['href']}\" target=\"{$item['target']}\"" . $this->getAttr($a) . '>' . $this->getTextItem($item, $isParent) . '</a>';
             if ($isParent)
             {
-                $str.= $this->buildFromResult($array, $item_id, $level+2);
+                $str .= $this->buildFromResult($array, $item_id, $level + 2);
             }
-            $str.='</li>';
+            $str .= '</li>';
         }
-        $str.='</ul>';
+        $str .= '</ul>';
         return $str;
     }
+
 }
