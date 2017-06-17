@@ -80,8 +80,8 @@ class QuickMenu
     /**
      * Insert an item
      * @param array $item
-     * @param string $before_at (Optional) The reference position for insert
-     * @param string $parent (Optional) The parent if the insert is in a submenu
+     * @param string $before_at (Optional) The reference position for insert. The 'text' attribute
+     * @param string $parent (Optional) The node parent if the insert is in a submenu. The 'text' attribute
      */
     public function insert($item, $before_at = '', $parent = '')
     {
@@ -104,7 +104,7 @@ class QuickMenu
             $pos_parent = array_search($parent, array_column($this->arrData, 'text'));
             if ($pos_parent === FALSE)
             {
-                $this->arrData[] = $item;
+                $this->a8rrData[] = $item;
                 return;
             }
             $pos = array_search($before_at, array_column($this->arrData[$pos_parent]['children'], 'text'));
@@ -116,7 +116,48 @@ class QuickMenu
             $this->arrData[$pos_parent]['children'][] = $item;
         }
     }
-
+    
+    /**
+     * Replace an item (find by text attribute)
+     * @param array $newItem The new item
+     * @param string $text The text item for search
+     */
+    public function replace(array $newItem, $text)
+    {
+        $pos = array_search($text, array_column($this->arrData, 'text'));
+        if ($pos===FALSE)
+        {
+            return FALSE;
+        }
+        $this->arrData[$pos] = $newItem;
+        return TRUE;
+    }
+    
+    /**
+     * Remove an item (from top level) by text attribute
+     * @param string $text Text item
+     */
+    public function remove($text)
+    {
+        $pos = array_search($text, array_column($this->arrData, 'text'));
+        if ($pos===FALSE)
+        {
+            return FALSE;
+        }
+        array_splice($this->arrData, $pos, 1);
+        return TRUE;
+    }
+    /**
+     * Get an menu item (from top level)
+     * @param string $text Text menu to find
+     * @return mixed Array with the item. Else not found, return NULL
+     */
+    public function getItem($text)
+    {
+        $pos = array_search($text, array_column($this->arrData, 'text'));
+        return ($pos!==FALSE) ? $this->arrData[$pos] : NULL;
+    }
+    
     /**
      * The Html menu
      * @return string Html menu

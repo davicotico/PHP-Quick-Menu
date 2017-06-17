@@ -8,6 +8,7 @@ $qMenu = new BootstrapMenu(array('data'=>$str));
 $qMenu->setActiveItem('http://codeignitertutoriales.com');
 $qMenu->insert(array("text"=>'Ooh!', "href"=>'http://codeignitertutoriales.com', "title"=>'Awesome'), 'Another action', 'About');
 $qMenu->insert(array("text"=>'Ultimo item', "href"=>'https://github.com/davicotico', "title"=>'My Github'));
+$qMenu->replace(array('text'=>'About Wow', 'href'=>'about', 'title'=>'Hey'), 'Home');
 $menu = $qMenu->html(); ?>
 <!DOCTYPE html>
 <html lang="es">
