@@ -100,6 +100,20 @@ Insert an item
 * array $item - Associative array with item attributes (text, href, icon, title)
 * string $before_at (Optional) The reference position for insert
 * string $parent (Optional) The parent if the insert is in submenu
+
+### remove($text)
+Remove an item (from top level) by text attribute
+
+**Parameters:**
+* string $text Text item
+
+### replace(array $newItem, $text)
+Replace an item (find by text attribute)
+
+**Parameters:**
+* array $newItem The new item
+* string $text The text item for search
+
 ### html()
 The Html menu
 
