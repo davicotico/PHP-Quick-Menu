@@ -2,13 +2,13 @@
 /**
 * @author David Ticona Saravia
 */
-include "BootstrapMenu.php";
-$str = '[{"text":"Home", "href": "#home", "title": "Home"}, {"text":"About", "href": "#", "title": "About", "children": [{"text":"Action", "href": "#action", "title": "Action"}, {"text":"Another action", "href": "#another", "title": "Another action"}]}, {"text":"Something else here", "href": "#something", "title": "Something else here"}]';
-$qMenu = new BootstrapMenu(array('data'=>$str));
-$qMenu->setActiveItem('http://codeignitertutoriales.com');
-$qMenu->insert(array("text"=>'Ooh!', "href"=>'http://codeignitertutoriales.com', "title"=>'Awesome'), 'Another action', 'About');
-$qMenu->insert(array("text"=>'Ultimo item', "href"=>'https://github.com/davicotico', "title"=>'My Github'));
-$qMenu->replace(array('text'=>'About Wow', 'href'=>'about', 'title'=>'Hey'), 'Home');
+include "QuickMenu.php";
+$str = '[{"text":"Home","href":"http://home.com","icon":"fa fa-home","target":"_top","title":"My Home","children":[{"text":"Opcion2","href":"","icon":"fa fa-bar-chart-o","target":"_self","title":""},{"text":"Opcion3","href":"","icon":"fa fa-cloud-upload","target":"_self","title":""}]},{"text":"Opcion4","href":"","icon":"fa fa-crop","target":"_self","title":""},{"text":"Opcion5","href":"","icon":"fa fa-flask","target":"_self","title":""},{"text":"Opcion7","href":"","icon":"fa fa-search","target":"_self","title":"","children":[{"text":"Opcion7-1","href":"","icon":"fa fa-plug","target":"_self","title":"","children":[{"text":"Opcion7-1-1","href":"","icon":"fa fa-filter","target":"_self","title":""},{"text":"Opcion6","href":"","icon":"fa fa-map-marker","target":"_self","title":""}]}]}]';
+$qMenu = new QuickMenu(array('data'=>$str));
+$qMenu->setDropdownIcon('<i class="caret"></i>');
+$qMenu->set('ul-root', array('class'=>'nav navbar-nav', 'id'=>'#myMenu'));
+$qMenu->set('ul', array('class'=>'dropdown-menu'));
+$qMenu->set('a-parent', array('data-toggle'=>"dropdown", 'role'=>"button", 'aria-haspopup'=>"true", 'aria-expanded'=>"false"));
 $menu = $qMenu->html(); ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -20,6 +20,7 @@ $menu = $qMenu->html(); ?>
     <meta name="author" content="David Ticona Saravia">
     <title>Ejemplo #2 - QuickMenu & Smartmenus</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="smartmenus/addons/bootstrap/jquery.smartmenus.bootstrap.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -54,6 +55,25 @@ $menu = $qMenu->html(); ?>
         <p>
             <a class="btn btn-lg btn-primary" href="https://www.youtube.com/c/DavidTiconaSaravia" target="_blank" role="button">Inscríbete a mi canal en Youtube &raquo;</a>
         </p>
+      </div>
+      <div class="row">
+      <div class="col-md-12">
+      <h3>INSTRUCCIONES.-</h3>
+      <ul>
+      <li>Bootstrap solo acepta menus de hasta 2 niveles.</li>
+      <li>Para menus de niveles ilimitados se necesita un plugin. Bajar la ultima version del plugin <strong>Smartmenus <a href="https://github.com/vadikom/smartmenus/archive/1.1.0.zip" target="_blank">Click Aqui</a></strong></li>
+      <li>La estructura de archivos necesarios es la siguiente:</li>
+      </ul>
+      <pre>
+      ejemplo2.php
+      smartmenus/
+            jquery.smartmenus.min.js
+            addons/
+                bootstrap/
+                    jquery.smartmenus.bootstrap.js
+                    jquery.smartmenus.bootstrap.css
+      </pre>
+      </div>
       </div>
     </div>
     <!-- Placed at the end of the document so the pages load faster -->
