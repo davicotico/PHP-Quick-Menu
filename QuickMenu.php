@@ -2,8 +2,8 @@
 
 /**
  * Class Quick Menu
- * @author David Ticona Saravia <davicotico@gmail.com>
- * @version 0.7 (03/2017)
+ * @author David Ticona Saravia <davicotico@yandex.com>
+ * @version 1.0.1 (04/2020)
  */
 class QuickMenu
 {
@@ -12,7 +12,6 @@ class QuickMenu
     private $activeClass = 'active';
     protected $activeItem = '';
     private $arrAttr = array();
-    private $strAttr = array();
     private $arrData = array();
     private $result = array();
 
@@ -34,10 +33,15 @@ class QuickMenu
      */
     public function set($name, $value)
     {
-        $tags = array('ul', 'ul-root', 'li', 'li-parent', 'a', 'a-parent', 'active-class');
+        $tags = array('ul', 'ul-root', 'li', 'li-parent', 'a', 'a-parent');
         if (in_array($name, $tags))
         {
             $this->arrAttr[$name] = $value;
+        }
+        /* legacy */
+        if ($name=='active-class')
+        {
+            $this->activeClass = $value;
         }
     }
     /**
@@ -59,8 +63,8 @@ class QuickMenu
         if ($activeClass != '')
         {
             $this->activeClass = $activeClass;
+            $this->set('active-class', $this->activeClass); /* legacy */
         }
-        $this->set('active-class', array('class' => $this->activeClass));
     }
 
     /**
@@ -168,10 +172,6 @@ class QuickMenu
         {
             return $this->buildFromResult($this->result);
         }
-        foreach ($this->arrAttr as $tag => $attr)
-        {
-            $this->strAttr[$tag] = $this->buildAttributes($tag);
-        }
         return $this->build($this->arrData);
     }
 
@@ -208,11 +208,12 @@ class QuickMenu
 
     /**
      * @param string $tag
+     * @param string $extra Add css class
      * @return string Tag Attributes stored
      */
-    protected function getAttr($tag)
+    protected function getAttr($tag, $extra = '')
     {
-        return isset($this->strAttr[$tag]) ? $this->strAttr[$tag] : '';
+        return $this->buildAttributes($tag, $extra);
     }
 
     /**
@@ -230,15 +231,20 @@ class QuickMenu
     /**
      * Renderize the tag attributes from array
      * @param string $tag The tag
+     * @param string $extra append a css class
      * @return string The string atributes
      */
-    private function buildAttributes($tag)
+    private function buildAttributes($tag, $extra = '')
     {
         $str = '';
         if (isset($this->arrAttr[$tag]))
         {
             foreach ($this->arrAttr[$tag] as $name => $value)
             {
+                if (($extra!='')&&($name=='class'))
+                {
+                    $value = "{$value} {$extra}";
+                }
                 $str .= " {$name}=\"{$value}\"";
             }
         }
@@ -259,8 +265,8 @@ class QuickMenu
             $isParent = isset($item['children']);
             $li = ($isParent) ? 'li-parent' : 'li';
             $a = ($isParent) ? 'a-parent' : 'a';
-            $active = ($this->activeItem == $item['href']) ? $this->getAttr('active-class') : '';
-            $str .= '<li' . $this->getAttr($li) . " {$active} >";
+            $activeClass = ($this->activeItem == $item['href']) ? $this->activeClass : '';
+            $str .= '<li' . $this->getAttr($li, $activeClass) . ">";
             $str .= '<a href="' . $item['href'] . '" title="' . $item['title'] . '"' . $this->getAttr($a) . '>' . $this->getTextItem($item, $isParent) . '</a>';
             if ($isParent)
             {
@@ -287,7 +293,8 @@ class QuickMenu
             $isParent = isset($array[$item_id]);
             $li = ($isParent) ? 'li-parent' : 'li';
             $a = ($isParent) ? 'a-parent' : 'a';
-            $str .= '<li' . $this->getAttr($li) . '>';
+            $activeClass = ($this->activeItem == $item['href']) ? $this->activeClass : '';
+            $str .= '<li' . $this->getAttr($li, $activeClass) . '>';
             $str .= "<a href=\"{$item['href']}\" target=\"{$item['target']}\"" . $this->getAttr($a) . '>' . $this->getTextItem($item, $isParent) . '</a>';
             if ($isParent)
             {
